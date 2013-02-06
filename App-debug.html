@@ -10,7 +10,8 @@
   <script type="text/javascript" src="Kanban.js"></script>
 <script type="text/javascript" src="KanbanCardRenderer.js"></script>
 <script type="text/javascript" src="KanbanColumnRenderer.js"></script>
-<script type="text/javascript" src="KanbanConfig.js"></script>
+<script type="text/javascript" src="KanbanColumnConfig.js"></script>
+<script type="text/javascript" src="KanbanCOSConfig.js"></script>
 <script type="text/javascript" src="KanbanPolicy.js"></script>
 <script type="text/javascript" src="KanbanReport.js"></script>
   <link rel="stylesheet" type="text/css" href="Kanban.css">
@@ -52,24 +53,41 @@
             rallyDataSource.projectScopeUp = projectScopeUp;
             rallyDataSource.projectScopeDown = projectScopeDown;
 
-            var config, kanbanBoard;
+            var columnConfig, cosConfig, kanbanBoard;
 
-            function configShow() {
-                if (!config) {
-                    config = new KanbanConfigPanel(rallyDataSource, kanbanBoard._redisplayBoard);
-                    config.display();
+            function columnConfigShow() {
+                if (!columnConfig) {
+                    columnConfig = new KanbanColumnConfigPanel(rallyDataSource, kanbanBoard._redisplayBoard);
+                    columnConfig.display();
                 }
                 else {
-                    config.show();
+                    columnConfig.show();
                 }
             }
 
             rally.sdk.ui.AppHeader.addPageTool({
-                key:"showConfig",
-                label: "Settings...",
-                onClick: configShow
+                key:"showColumnConfig",
+                label: "Column Settings...",
+                onClick: columnConfigShow
             });
-            kanbanBoard = new KanbanBoard(rallyDataSource, configShow);
+            
+             function cosConfigShow() {
+                if (!cosConfig) {
+                    cosConfig = new KanbanCOSConfigPanel(rallyDataSource, kanbanBoard._redisplayBoard);
+                    cosConfig.display();
+                }
+                else {
+                    cosConfig.show();
+                }
+            }
+
+            rally.sdk.ui.AppHeader.addPageTool({
+                key:"showCosConfig",
+                label: "Class of Service Settings...",
+                onClick: cosConfigShow
+            });
+            
+            kanbanBoard = new KanbanBoard(rallyDataSource, columnConfigShow);
             kanbanBoard.display(dojo.body());
 
         }
@@ -79,9 +97,10 @@
 </head>
 <body>
 <div style="display:none">
-    <div id="configPanel">
+    <div id="columnConfigPanel">
         <div id="configHelp"></div>
         <div id="stateDropdown"></div>
+
         <table id="configTable" cellspacing="15">
             <tbody id="configTableBody">
             <tr class="tableHeaderRow">
@@ -92,6 +111,7 @@
             </tr>
             </tbody>
         </table>
+        
         <div id="hideCardsCheckBox"></div>
         <div id="showTasksCheckBox"></div>
         <div id="showDefectsCheckBox"></div>
@@ -101,6 +121,18 @@
         </div>
         <div id="colorByArtifactTypeCheckBox"></div>
         <div id="msgContainer"></div>
+    </div>
+
+    <div id="cosConfigPanel">
+        <div id="classOfServiceDropdown"></div>
+        <table id="configCOSTable" cellspacing="15">
+            <tbody id="configCOSTableBody">
+            <tr class="tableHeaderRow">
+                <td>Class of Service</td>
+                <td>Color Mapping</td>
+            </tr>
+            </tbody>
+        </table> 
     </div>
 </div>
 </body>

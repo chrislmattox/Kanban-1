@@ -288,8 +288,20 @@ KanbanCardRenderer = function(column, item, options) {
         header.appendChild(ownerName);
 
         cardContent = document.createElement("div");
-        dojo.addClass(cardContent, "cardContent");
+		dojo.addClass(cardContent, "cardContent"); 
+		
+        var cos = item[options.cosField] || "";        
+              
         card.appendChild(cardContent);
+        
+        if(options.classOfService[cos]) {
+             if(options.classOfService[cos].state != "None") {
+                   var cosDiv = document.createElement("div");
+                   dojo.style(cosDiv, 'backgroundColor', options.classOfService[cos].state);
+                   dojo.addClass(cosDiv, "cosStripe");
+                   card.appendChild(cosDiv);
+             }
+        }
 
         var cardName = document.createElement("div");
         dojo.addClass(cardName, "cardName");

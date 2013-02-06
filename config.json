@@ -7,7 +7,8 @@
     	"Kanban.js",
     	"KanbanCardRenderer.js",
     	"KanbanColumnRenderer.js",
-    	"KanbanConfig.js",
+    	"KanbanColumnConfig.js",
+    	"KanbanCOSConfig.js",
     	"KanbanPolicy.js",
     	"KanbanReport.js"
     ],
